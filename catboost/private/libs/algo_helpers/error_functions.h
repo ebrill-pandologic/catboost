@@ -975,6 +975,18 @@ inline double GetNumericParameter(const TMap<TString, TString>& params, const TS
 class TUserDefinedPerObjectError final : public IDerCalcer {
 public:
     const double Alpha;
+    
+    double CalcDer(double approx, float target) const {
+        double approxExp = exp(approx);
+        const double p = approxExp / (1 + approxExp);
+        return target - p;
+    }
+
+    double CalcDer2(double approx, float /*target*/) const {
+        double approxExp = exp(approx);
+        const double p = approxExp / (1 + approxExp);
+        return -p * (1 - p);
+    }
 
 public:
     TUserDefinedPerObjectError(const TMap<TString, TString>& params, bool isExpApprox)
